@@ -1,0 +1,278 @@
+basePath: /api/v1
+definitions:
+  api.ErrorMessage:
+    properties:
+      message:
+        type: string
+    type: object
+  politicos.CandidacyStatus:
+    properties:
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  politicos.Candidatures:
+    properties:
+      ano_ELEICAO:
+        type: string
+      cd_CARGO:
+        type: string
+      cd_COR_RACA:
+        type: string
+      cd_DETALHE_SITUACAO_CAND:
+        type: string
+      cd_ELEICAO:
+        type: string
+      cd_ESTADO_CIVIL:
+        type: string
+      cd_GENERO:
+        type: string
+      cd_GRAU_INSTRUCAO:
+        type: string
+      cd_MUNICIPIO_NASCIMENTO:
+        type: string
+      cd_NACIONALIDADE:
+        type: string
+      cd_OCUPACAO:
+        type: string
+      cd_SIT_TOT_TURNO:
+        type: string
+      cd_SITUACAO_CANDIDATO_PLEITO:
+        type: string
+      cd_SITUACAO_CANDIDATO_URNA:
+        type: string
+      cd_SITUACAO_CANDIDATURA:
+        type: string
+      cd_TIPO_ELEICAO:
+        type: string
+      ds_CARGO:
+        type: string
+      ds_COMPOSICAO_COLIGACAO:
+        type: string
+      ds_COR_RACA:
+        type: string
+      ds_DETALHE_SITUACAO_CAND:
+        type: string
+      ds_ELEICAO:
+        type: string
+      ds_ESTADO_CIVIL:
+        type: string
+      ds_GENERO:
+        type: string
+      ds_GRAU_INSTRUCAO:
+        type: string
+      ds_NACIONALIDADE:
+        type: string
+      ds_OCUPACAO:
+        type: string
+      ds_SIT_TOT_TURNO:
+        type: string
+      ds_SITUACAO_CANDIDATO_PLEITO:
+        type: string
+      ds_SITUACAO_CANDIDATO_URNA:
+        type: string
+      ds_SITUACAO_CANDIDATURA:
+        type: string
+      dt_ELEICAO:
+        type: string
+      dt_GERACAO:
+        type: string
+      dt_NASCIMENTO:
+        type: string
+      hh_GERACAO:
+        type: string
+      nm_CANDIDATO:
+        type: string
+      nm_COLIGACAO:
+        type: string
+      nm_EMAIL:
+        type: string
+      nm_MUNICIPIO_NASCIMENTO:
+        type: string
+      nm_PARTIDO:
+        type: string
+      nm_SOCIAL_CANDIDATO:
+        type: string
+      nm_TIPO_ELEICAO:
+        type: string
+      nm_UE:
+        type: string
+      nm_URNA_CANDIDATO:
+        type: string
+      nr_CANDIDATO:
+        type: string
+      nr_CPF_CANDIDATO:
+        type: string
+      nr_IDADE_DATA_POSSE:
+        type: string
+      nr_PARTIDO:
+        type: string
+      nr_PROCESSO:
+        type: string
+      nr_PROTOCOLO_CANDIDATURA:
+        type: string
+      nr_TITULO_ELEITORAL_CANDIDATO:
+        type: string
+      nr_TURNO:
+        type: string
+      sg_PARTIDO:
+        type: string
+      sg_UE:
+        type: string
+      sg_UF:
+        type: string
+      sg_UF_NASCIMENTO:
+        type: string
+      sq_CANDIDATO:
+        type: string
+      sq_COLIGACAO:
+        type: string
+      st_CANDIDATO_INSERIDO_URNA:
+        type: string
+      st_DECLARAR_BENS:
+        type: string
+      st_REELEICAO:
+        type: string
+      tp_ABRANGENCIA:
+        type: string
+      tp_AGREMIACAO:
+        type: string
+      vr_DESPESA_MAX_CAMPANHA:
+        type: string
+    type: object
+  politicos.PoliticalOffice:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      term:
+        type: integer
+      wikipedia:
+        type: string
+    type: object
+  politicos.PoliticalParty:
+    properties:
+      foundedDate:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+      siglum:
+        type: string
+      tseNumber:
+        type: integer
+      website:
+        type: string
+      wikipedia:
+        type: string
+    type: object
+host: localhost:8888
+info:
+  contact:
+    name: API Support
+    url: https://github.com/olhoneles/politicos-go
+  description: Politicos API data.
+  license:
+    name: AGPL-3.0+
+    url: https://www.gnu.org/licenses/agpl-3.0.pt-br.html
+  title: Politicos API
+  version: 0.1.0
+paths:
+  /candidacies-status:
+    get:
+      consumes:
+      - application/json
+      description: get all candidacies status data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/politicos.CandidacyStatus'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+      summary: Get all candidacies status
+  /candidatures:
+    get:
+      consumes:
+      - application/json
+      description: get all candidatures data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/politicos.Candidatures'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+      summary: Get all candidatures
+  /political-offices:
+    get:
+      consumes:
+      - application/json
+      description: get all political offices data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/politicos.PoliticalOffice'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+      summary: Get all political offices
+  /political-parties:
+    get:
+      consumes:
+      - application/json
+      description: get all political parties data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/politicos.PoliticalParty'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+      summary: Get all political parties
+swagger: "2.0"
