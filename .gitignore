@@ -1,0 +1,5 @@
+# VIM
+*.swp
+
+# TSE FILES
+consulta_cand_*
