@@ -10,8 +10,8 @@ run: run-api
 run-api:
 	@POLITICOS_DEBUG=True gin -b politicosapi -a 8888 -i
 
-run-collector:
-	@go run csv-collector/main.go
+build-collector:
+	@go build -o collector csv-collector/main.go
 
 clean:
 	@find . -name "*.swp" -delete

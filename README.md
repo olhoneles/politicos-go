@@ -35,7 +35,11 @@ make run
 ### Rodando o coletor
 
 ```bash
-make run-collector
+make build-collector
+```
+
+```bash
+./collector process-all
 ```
 
 ### Rotas da API (local)
