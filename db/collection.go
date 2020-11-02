@@ -1,3 +1,6 @@
+// Copyright (c) 2020, Marcelo Jorge Vieira
+// Licensed under the AGPL-3.0+ License
+
 package db
 
 import (
