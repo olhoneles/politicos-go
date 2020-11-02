@@ -11,6 +11,8 @@ definitions:
         type: string
       slug:
         type: string
+      tseId:
+        type: string
     type: object
   politicos.Candidatures:
     properties:
@@ -141,6 +143,15 @@ definitions:
       vr_DESPESA_MAX_CAMPANHA:
         type: string
     type: object
+  politicos.Education:
+    properties:
+      name:
+        type: string
+      slug:
+        type: string
+      tseId:
+        type: string
+    type: object
   politicos.PoliticalOffice:
     properties:
       description:
@@ -151,6 +162,8 @@ definitions:
         type: string
       term:
         type: integer
+      tseId:
+        type: string
       wikipedia:
         type: string
     type: object
@@ -165,7 +178,7 @@ definitions:
       siglum:
         type: string
       tseNumber:
-        type: integer
+        type: string
       website:
         type: string
       wikipedia:
@@ -229,6 +242,29 @@ paths:
           schema:
             $ref: '#/definitions/api.ErrorMessage'
       summary: Get all candidatures
+  /educations:
+    get:
+      consumes:
+      - application/json
+      description: get all educations data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/politicos.Education'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+      summary: Get all educations
   /political-offices:
     get:
       consumes:

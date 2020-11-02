@@ -15,5 +15,6 @@ var postProcessAllCmd = &cobra.Command{
 		postProcessPoliticalPartyCmd.Execute()
 		postProcessPoliticalOfficeCmd.Execute()
 		postProcessCandidacyStatusCmd.Execute()
+		postProcessEducationCmd.Execute()
 	},
 }

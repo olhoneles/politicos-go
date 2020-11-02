@@ -101,6 +101,41 @@ var doc = `{
                 }
             }
         },
+        "/educations": {
+            "get": {
+                "description": "get all educations data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all educations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/politicos.Education"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/political-offices": {
             "get": {
                 "description": "get all political offices data",
@@ -188,6 +223,9 @@ var doc = `{
                     "type": "string"
                 },
                 "slug": {
+                    "type": "string"
+                },
+                "tseId": {
                     "type": "string"
                 }
             }
@@ -386,6 +424,20 @@ var doc = `{
                 }
             }
         },
+        "politicos.Education": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tseId": {
+                    "type": "string"
+                }
+            }
+        },
         "politicos.PoliticalOffice": {
             "type": "object",
             "properties": {
@@ -400,6 +452,9 @@ var doc = `{
                 },
                 "term": {
                     "type": "integer"
+                },
+                "tseId": {
+                    "type": "string"
                 },
                 "wikipedia": {
                     "type": "string"
@@ -422,7 +477,7 @@ var doc = `{
                     "type": "string"
                 },
                 "tseNumber": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "website": {
                     "type": "string"
