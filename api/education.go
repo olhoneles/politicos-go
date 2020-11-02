@@ -6,9 +6,9 @@ package api
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/olhoneles/politicos-go/db"
 	"github.com/olhoneles/politicos-go/politicos"
 	log "github.com/sirupsen/logrus"
 )
@@ -25,19 +25,13 @@ import (
 func (s *server) getAllEducations(c echo.Context) error {
 	log.Debug("[API] Retrieving all educations")
 
-	var page int
-	pageStr := c.QueryParam("page")
-	if pageStr == "" {
-		page = 1
-	} else {
-		var err error
-		page, err = strconv.Atoi(pageStr)
-		if err != nil {
-			errMsg := fmt.Sprintf("Error on convert page value to int: %v", err)
-			return logAndReturnError(c, errMsg)
-		}
+	opts, err := db.NewGetAllOptionsBuilder(c.QueryParams())
+	if err != nil {
+		errMsg := fmt.Sprintf("Error on convert page value to int: %v", err)
+		return logAndReturnError(c, errMsg)
 	}
-	result, err := s.db.GetAll(&politicos.Education{}, page)
+
+	result, err := s.db.GetAll(&politicos.Education{}, opts)
 	if err != nil {
 		errMsg := fmt.Sprintf("Error on retrieve educations: %v", err)
 		return logAndReturnError(c, errMsg)

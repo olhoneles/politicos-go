@@ -21,7 +21,7 @@ type mongoSession struct {
 }
 
 type DB interface {
-	GetAll(q politicos.Queryable, p int) ([]politicos.Queryable, error)
+	GetAll(q politicos.Queryable, o *GetAllOptions) ([]politicos.Queryable, error)
 	GetUnique(f politicos.Queryable, q politicos.Queryable, opts bson.D) ([]politicos.Queryable, error)
 	InsertMany(q politicos.Queryable, d []interface{}) (*mongo.InsertManyResult, error)
 	Ping() error
@@ -90,13 +90,13 @@ func (m *mongoSession) GetUnique(f politicos.Queryable, q politicos.Queryable, o
 	return operationList, nil
 }
 
-func (m *mongoSession) GetAll(d politicos.Queryable, page int) ([]politicos.Queryable, error) {
+func (m *mongoSession) GetAll(d politicos.Queryable, o *GetAllOptions) ([]politicos.Queryable, error) {
 	log.Debug("[DB] GetAll")
 
 	query := bson.M{}
 	perPage := viper.GetInt("db.operation.per-page")
 	opts := options.Find()
-	opts.SetSkip(int64((page - 1) * perPage))
+	opts.SetSkip(int64((o.Page - 1) * perPage))
 	opts.SetLimit(int64(perPage))
 	results, err := m.collection.FindAll(d.GetCollectionName(), query, opts)
 	if err != nil {
