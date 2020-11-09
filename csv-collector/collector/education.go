@@ -20,15 +20,17 @@ func ProcessAllEducations() error {
 		return err
 	}
 
-	group := bson.D{
-		primitive.E{Key: "tseId", Value: "$cd_grau_instrucao"},
-		primitive.E{Key: "name", Value: "$ds_grau_instrucao"},
+	opts := db.UniqueOptions{
+		IDs: bson.D{
+			primitive.E{Key: "tseId", Value: "$cd_grau_instrucao"},
+			primitive.E{Key: "name", Value: "$ds_grau_instrucao"},
+		},
 	}
 
 	results, err := dbInstance.GetUnique(
 		&politicos.Candidatures{},
 		&politicos.Education{},
-		group,
+		opts,
 	)
 	if err != nil {
 		return err

@@ -19,15 +19,17 @@ func ProcessAllPoliticalOffices() error {
 		return err
 	}
 
-	group := bson.D{
-		primitive.E{Key: "tseId", Value: "$cd_cargo"},
-		primitive.E{Key: "name", Value: "$ds_cargo"},
+	opts := db.UniqueOptions{
+		IDs: bson.D{
+			primitive.E{Key: "tseId", Value: "$cd_cargo"},
+			primitive.E{Key: "name", Value: "$ds_cargo"},
+		},
 	}
 
 	results, err := dbInstance.GetUnique(
 		&politicos.Candidatures{},
 		&politicos.PoliticalOffice{},
-		group,
+		opts,
 	)
 	if err != nil {
 		return err

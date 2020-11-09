@@ -13,10 +13,14 @@ type GetAllOptions struct {
 }
 
 func NewGetAllOptionsBuilder(c url.Values) (*GetAllOptions, error) {
-	page, err := strconv.Atoi(c.Get("page"))
-	if err != nil {
-		return nil, err
+	pageStr := c.Get("page")
+	if pageStr == "" {
+		return &GetAllOptions{Page: 1}, nil
 	}
-	opts := &GetAllOptions{Page: page}
-	return opts, nil
+
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		return &GetAllOptions{Page: 1}, err
+	}
+	return &GetAllOptions{Page: page}, nil
 }

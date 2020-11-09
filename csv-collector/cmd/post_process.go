@@ -18,6 +18,7 @@ var (
 		"political-office": collector.ProcessAllPoliticalOffices,
 		"candidacy-status": collector.ProcessAllCandidaciesStatus,
 		"education":        collector.ProcessAllEducations,
+		"politician":       collector.ProcessAllPoliticians,
 	}
 )
 
