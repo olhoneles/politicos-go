@@ -184,6 +184,47 @@ definitions:
       wikipedia:
         type: string
     type: object
+  politicos.Politician:
+    properties:
+      cd_COR_RACA:
+        type: string
+      cd_ESTADO_CIVIL:
+        type: string
+      cd_MUNICIPIO_NASCIMENTO:
+        type: string
+      cd_NACIONALIDADE:
+        type: string
+      cpf:
+        type: string
+      data:
+        items:
+          $ref: '#/definitions/politicos.Candidatures'
+        type: array
+      ds_COR_RACA:
+        type: string
+      ds_ESTADO_CIVIL:
+        type: string
+      ds_NACIONALIDADE:
+        type: string
+      dt_NASCIMENTO:
+        type: string
+      nm_CANDIDATO:
+        type: string
+      nm_EMAIL:
+        type: string
+      nm_MUNICIPIO_NASCIMENTO:
+        type: string
+      nm_SOCIAL_CANDIDATO:
+        type: string
+      nm_URNA_CANDIDATO:
+        type: string
+      nr_TITULO_ELEITORAL_CANDIDATO:
+        type: string
+      sg_UF_NASCIMENTO:
+        type: string
+      sq_CANDIDATO:
+        type: string
+    type: object
 host: localhost:8888
 info:
   contact:
@@ -311,4 +352,27 @@ paths:
           schema:
             $ref: '#/definitions/api.ErrorMessage'
       summary: Get all political parties
+  /politicians:
+    get:
+      consumes:
+      - application/json
+      description: get all politicians data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/politicos.Politician'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorMessage'
+      summary: Get all politicians
 swagger: "2.0"

@@ -22,7 +22,7 @@ type mongoSession struct {
 
 type DB interface {
 	GetAll(q politicos.Queryable, o *GetAllOptions) ([]politicos.Queryable, error)
-	GetUnique(f politicos.Queryable, q politicos.Queryable, opts bson.D) ([]politicos.Queryable, error)
+	GetUnique(f politicos.Queryable, q politicos.Queryable, opts UniqueOptions) ([]politicos.Queryable, error)
 	InsertMany(q politicos.Queryable, d []interface{}) (*mongo.InsertManyResult, error)
 	Ping() error
 }
@@ -60,15 +60,40 @@ func (m *mongoSession) InsertMany(q politicos.Queryable, d []interface{}) (*mong
 	return m.collection.InsertMany(q.GetCollectionName(), d)
 }
 
-func (m *mongoSession) GetUnique(f politicos.Queryable, q politicos.Queryable, opts bson.D) ([]politicos.Queryable, error) {
+type UniqueOptions struct {
+	Data  bson.D
+	IDs   bson.D
+	Match bson.D
+	Sort  bson.D
+}
+
+func (m *mongoSession) GetUnique(f politicos.Queryable, q politicos.Queryable, opts UniqueOptions) ([]politicos.Queryable, error) {
 	log.Debug("[DB] GetUnique")
 
-	group := bson.D{
-		primitive.E{
-			Key:   "$group",
-			Value: bson.D{primitive.E{Key: "_id", Value: opts}}},
+	var sort bson.D
+	if opts.Sort != nil {
+		sort = bson.D{primitive.E{Key: "$sort", Value: opts.Sort}}
 	}
-	pipeline := mongo.Pipeline{group}
+
+	var groupData bson.D
+	if opts.Data != nil {
+		groupData = bson.D{
+			primitive.E{Key: "_id", Value: opts.IDs},
+			primitive.E{Key: "data", Value: opts.Data},
+		}
+	} else {
+		groupData = bson.D{primitive.E{Key: "_id", Value: opts.IDs}}
+	}
+	group := bson.D{primitive.E{Key: "$group", Value: groupData}}
+
+	match := bson.D{primitive.E{Key: "$match", Value: opts.Match}}
+	var pipeline mongo.Pipeline
+	if opts.Match != nil {
+		pipeline = mongo.Pipeline{sort, match, group, sort}
+	} else {
+		pipeline = mongo.Pipeline{group}
+	}
+
 	results, err := m.collection.Aggregate(f.GetCollectionName(), pipeline)
 	if err != nil {
 		return nil, err
@@ -76,7 +101,13 @@ func (m *mongoSession) GetUnique(f politicos.Queryable, q politicos.Queryable, o
 
 	operationList := []politicos.Queryable{}
 	for _, result := range results {
-		bsonBytes, err := bson.Marshal(result["_id"])
+		var bsonBytes []byte
+		if opts.Data != nil {
+			bsonBytes, err = bson.Marshal(result)
+		} else {
+			bsonBytes, err = bson.Marshal(result["_id"])
+		}
+
 		if err != nil {
 			return nil, err
 		}

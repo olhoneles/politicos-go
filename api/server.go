@@ -82,6 +82,7 @@ func NewServerFromDB() (Server, error) {
 	echoInstance.GET("/api/v1/educations", server.getAllEducations)
 	echoInstance.GET("/api/v1/political-offices", server.getAllPoliticalOffices)
 	echoInstance.GET("/api/v1/political-parties", server.getAllPoliticalParties)
+	echoInstance.GET("/api/v1/politicians", server.getAllPoliticians)
 
 	return server, nil
 }

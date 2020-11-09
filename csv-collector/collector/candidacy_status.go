@@ -20,15 +20,17 @@ func ProcessAllCandidaciesStatus() error {
 		return err
 	}
 
-	group := bson.D{
-		primitive.E{Key: "tseId", Value: "$cd_sit_tot_turno"},
-		primitive.E{Key: "name", Value: "$ds_sit_tot_turno"},
+	opts := db.UniqueOptions{
+		IDs: bson.D{
+			primitive.E{Key: "tseId", Value: "$cd_sit_tot_turno"},
+			primitive.E{Key: "name", Value: "$ds_sit_tot_turno"},
+		},
 	}
 
 	results, err := dbInstance.GetUnique(
 		&politicos.Candidatures{},
 		&politicos.CandidacyStatus{},
-		group,
+		opts,
 	)
 	if err != nil {
 		return err

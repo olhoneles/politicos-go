@@ -19,16 +19,18 @@ func ProcessAllPoliticalParties() error {
 		return err
 	}
 
-	group := bson.D{
-		primitive.E{Key: "siglum", Value: "$sg_partido"},
-		primitive.E{Key: "name", Value: "$nm_partido"},
-		primitive.E{Key: "tseNumber", Value: "$nr_partido"},
+	opts := db.UniqueOptions{
+		IDs: bson.D{
+			primitive.E{Key: "siglum", Value: "$sg_partido"},
+			primitive.E{Key: "name", Value: "$nm_partido"},
+			primitive.E{Key: "tseNumber", Value: "$nr_partido"},
+		},
 	}
 
 	results, err := dbInstance.GetUnique(
 		&politicos.Candidatures{},
 		&politicos.PoliticalParty{},
-		group,
+		opts,
 	)
 	if err != nil {
 		return err
