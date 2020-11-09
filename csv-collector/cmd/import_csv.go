@@ -19,9 +19,9 @@ import (
 	"golang.org/x/text/encoding/charmap"
 )
 
-var processCSVFilesCmd = &cobra.Command{
-	Use:   "process-all-csv",
-	Short: "Process all CSV files",
+var importCSVFilesCmd = &cobra.Command{
+	Use:   "import-csv",
+	Short: "Imports the data from all CSV files",
 	Run: func(cmd *cobra.Command, args []string) {
 		years := map[int]politicos.Candidature{
 			2014: &politicos.Cand2014{},
