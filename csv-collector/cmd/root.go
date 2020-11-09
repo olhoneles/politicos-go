@@ -22,10 +22,7 @@ func Execute() error {
 
 func init() {
 	rootCmd.AddCommand(fetchCSVFilesCmd)
+	rootCmd.AddCommand(importCSVFilesCmd)
+	rootCmd.AddCommand(postProcessCmd)
 	rootCmd.AddCommand(postProcessAllCmd)
-	rootCmd.AddCommand(processCSVFilesCmd)
-	rootCmd.AddCommand(postProcessPoliticalPartyCmd)
-	rootCmd.AddCommand(postProcessPoliticalOfficeCmd)
-	rootCmd.AddCommand(postProcessCandidacyStatusCmd)
-	rootCmd.AddCommand(postProcessEducationCmd)
 }
