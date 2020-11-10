@@ -10,11 +10,23 @@ import (
 var postProcessAllCmd = &cobra.Command{
 	Use:   "process-all",
 	Short: "Process all data",
-	Run: func(cmd *cobra.Command, args []string) {
-		processCSVFilesCmd.Execute()
-		postProcessPoliticalPartyCmd.Execute()
-		postProcessPoliticalOfficeCmd.Execute()
-		postProcessCandidacyStatusCmd.Execute()
-		postProcessEducationCmd.Execute()
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if err := processCSVFilesCmd.Execute(); err != nil {
+			return err
+		}
+		if err := postProcessPoliticalPartyCmd.Execute(); err != nil {
+			return err
+		}
+		if err := postProcessPoliticalOfficeCmd.Execute(); err != nil {
+			return err
+		}
+
+		if err := postProcessCandidacyStatusCmd.Execute(); err != nil {
+			return err
+		}
+		if err := postProcessEducationCmd.Execute(); err != nil {
+			return err
+		}
+		return nil
 	},
 }

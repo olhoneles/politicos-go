@@ -8,6 +8,7 @@ import (
 	"github.com/olhoneles/politicos-go/db"
 	"github.com/olhoneles/politicos-go/politicos"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func ProcessAllPoliticalOffices() error {
@@ -19,8 +20,8 @@ func ProcessAllPoliticalOffices() error {
 	}
 
 	group := bson.D{
-		{"tseId", "$cd_cargo"},
-		{"name", "$ds_cargo"},
+		primitive.E{Key: "tseId", Value: "$cd_cargo"},
+		primitive.E{Key: "name", Value: "$ds_cargo"},
 	}
 
 	results, err := dbInstance.GetUnique(

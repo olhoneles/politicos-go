@@ -11,6 +11,7 @@ import (
 	"github.com/olhoneles/politicos-go/politicos"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -62,7 +63,11 @@ func (m *mongoSession) InsertMany(q politicos.Queryable, d []interface{}) (*mong
 func (m *mongoSession) GetUnique(f politicos.Queryable, q politicos.Queryable, opts bson.D) ([]politicos.Queryable, error) {
 	log.Debug("[DB] GetUnique")
 
-	group := bson.D{{"$group", bson.D{{"_id", opts}}}}
+	group := bson.D{
+		primitive.E{
+			Key:   "$group",
+			Value: bson.D{primitive.E{Key: "_id", Value: opts}}},
+	}
 	pipeline := mongo.Pipeline{group}
 	results, err := m.collection.Aggregate(f.GetCollectionName(), pipeline)
 	if err != nil {
