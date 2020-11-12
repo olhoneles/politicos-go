@@ -21,3 +21,6 @@ clean:
 
 docs-update:
 	@swag init
+
+lint:
+	@golangci-lint run --out-format=github-actions
