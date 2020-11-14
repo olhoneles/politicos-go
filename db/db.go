@@ -7,8 +7,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/labstack/gommon/log"
 	"github.com/olhoneles/politicos-go/politicos"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
