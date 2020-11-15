@@ -22,31 +22,36 @@ import (
 var importCSVFilesCmd = &cobra.Command{
 	Use:   "import-csv",
 	Short: "Imports the data from all CSV files",
-	Run: func(cmd *cobra.Command, args []string) {
-		years := map[int]politicos.Candidature{
-			2014: &politicos.Cand2014{},
-			2016: &politicos.Cand2016{},
-			2018: &politicos.Cand2018{},
-			2020: &politicos.Cand2020{},
-		}
-
-		for year, data := range years {
-			base_dir := fmt.Sprintf("./consulta_cand_%d", year)
-
-			files, err := collector.WalkMatch(base_dir, "*.csv")
-			if err != nil {
-				log.Fatalf("Couldn't read files! %v", err)
-			}
-
-			for _, file := range files {
-				log.Printf("Processing... %s", file)
-				err := processCSVFile(file, data)
-				if err != nil {
-					log.Fatalf("Couldn't process CSV file! %v", err)
-				}
-			}
-		}
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return importCSVFiles()
 	},
+}
+
+func importCSVFiles() error {
+	years := map[int]politicos.Candidature{
+		2014: &politicos.Cand2014{},
+		2016: &politicos.Cand2016{},
+		2018: &politicos.Cand2018{},
+		2020: &politicos.Cand2020{},
+	}
+
+	for year, data := range years {
+		baseDir := fmt.Sprintf("./consulta_cand_%d", year)
+
+		files, err := collector.WalkMatch(baseDir, "*.csv")
+		if err != nil {
+			return fmt.Errorf("Couldn't read files! %v", err)
+		}
+
+		for _, file := range files {
+			log.Printf("Processing... %s", file)
+			err := processCSVFile(file, data)
+			if err != nil {
+				return fmt.Errorf("Couldn't process CSV file! %v", err)
+			}
+		}
+	}
+	return nil
 }
 
 // FIXME
