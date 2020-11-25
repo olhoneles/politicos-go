@@ -16,3 +16,11 @@ func (c CandidacyStatus) GetCollectionName() string {
 func (c CandidacyStatus) Cast() Queryable {
 	return &c
 }
+
+func (c CandidacyStatus) GetID() string {
+	return c.Name
+}
+
+func (c *CandidacyStatus) SetSlug(slug string) {
+	c.Slug = slug
+}

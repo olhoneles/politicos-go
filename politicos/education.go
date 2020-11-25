@@ -16,3 +16,11 @@ func (c Education) GetCollectionName() string {
 func (c Education) Cast() Queryable {
 	return &c
 }
+
+func (c Education) GetID() string {
+	return c.Name
+}
+
+func (c *Education) SetSlug(slug string) {
+	c.Slug = slug
+}

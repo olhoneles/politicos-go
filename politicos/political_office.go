@@ -19,3 +19,11 @@ func (c PoliticalOffice) GetCollectionName() string {
 func (c PoliticalOffice) Cast() Queryable {
 	return &c
 }
+
+func (c PoliticalOffice) GetID() string {
+	return c.Name
+}
+
+func (c *PoliticalOffice) SetSlug(slug string) {
+	c.Slug = slug
+}

@@ -5,6 +5,7 @@ package politicos
 
 // FIXME
 type Candidatures struct {
+	Slug                          string `json:"slug" bson:"slug"`
 	DT_GERACAO                    string
 	HH_GERACAO                    string
 	ANO_ELEICAO                   string
@@ -76,4 +77,12 @@ func (c Candidatures) GetCollectionName() string {
 
 func (c Candidatures) Cast() Queryable {
 	return &c
+}
+
+func (c Candidatures) GetID() string {
+	return c.SQ_CANDIDATO
+}
+
+func (c *Candidatures) SetSlug(slug string) {
+	c.Slug = slug
 }

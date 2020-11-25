@@ -4,7 +4,6 @@
 package collector
 
 import (
-	"github.com/gosimple/slug"
 	"github.com/olhoneles/politicos-go/db"
 	"github.com/olhoneles/politicos-go/politicos"
 	log "github.com/sirupsen/logrus"
@@ -15,11 +14,6 @@ import (
 func ProcessAllEducations() error {
 	log.Debug("[Collector] ProcessAllEducations")
 
-	dbInstance, err := db.NewMongoSession()
-	if err != nil {
-		return err
-	}
-
 	opts := db.UniqueOptions{
 		IDs: bson.D{
 			primitive.E{Key: "tseId", Value: "$cd_grau_instrucao"},
@@ -27,25 +21,7 @@ func ProcessAllEducations() error {
 		},
 	}
 
-	results, err := dbInstance.GetUnique(
-		&politicos.Candidatures{},
-		&politicos.Education{},
-		opts,
-	)
-	if err != nil {
-		return err
-	}
-
-	// FIXME
-	educations := []interface{}{}
-	for _, p := range results {
-		e := p.(*politicos.Education)
-		e.Slug = slug.Make(e.Name)
-		educations = append(educations, e)
-	}
-
-	_, err = dbInstance.InsertMany(&politicos.Education{}, educations)
-	if err != nil {
+	if err := collectorBase(&politicos.Education{}, opts); err != nil {
 		return err
 	}
 
