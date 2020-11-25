@@ -14,11 +14,6 @@ import (
 func ProcessAllPoliticalOffices() error {
 	log.Debug("[Collector] ProcessAllPoliticalOffices")
 
-	dbInstance, err := db.NewMongoSession()
-	if err != nil {
-		return err
-	}
-
 	opts := db.UniqueOptions{
 		IDs: bson.D{
 			primitive.E{Key: "tseId", Value: "$cd_cargo"},
@@ -26,23 +21,7 @@ func ProcessAllPoliticalOffices() error {
 		},
 	}
 
-	results, err := dbInstance.GetUnique(
-		&politicos.Candidatures{},
-		&politicos.PoliticalOffice{},
-		opts,
-	)
-	if err != nil {
-		return err
-	}
-
-	// FIXME
-	politicalOffices := []interface{}{}
-	for _, p := range results {
-		politicalOffices = append(politicalOffices, p)
-	}
-
-	_, err = dbInstance.InsertMany(&politicos.PoliticalOffice{}, politicalOffices)
-	if err != nil {
+	if err := collectorBase(&politicos.PoliticalOffice{}, opts); err != nil {
 		return err
 	}
 

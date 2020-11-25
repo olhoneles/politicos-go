@@ -6,4 +6,6 @@ package politicos
 type Queryable interface {
 	Cast() Queryable
 	GetCollectionName() string
+	GetID() string
+	SetSlug(slug string)
 }
